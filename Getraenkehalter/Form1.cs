@@ -25,10 +25,6 @@ namespace Getraenkehalter
             return "noDrive";          
         }
 
-        
-
-
-
         [DllImport("winmm.dll", EntryPoint = "mciSendStringA")]
         public static extern void mciSendStringA(string lpstrCommand, string lpstrReturnString, long uReturnLength, long hwndCallback);
         string callback = "";
@@ -46,10 +42,14 @@ namespace Getraenkehalter
         private void button1_Click(object sender, EventArgs e)
         {
             string driveLetter = GetDrive();
-            if (driveLetter != "noDrive") {
+            
+            if (driveLetter == "noDrive") {
+                button1.Text = "No Drive found";
+            }
+            else
+            {
                 mciSendStringA("open " + driveLetter + ": type CDaudio alias drive" + driveLetter, callback, 127, 0);
                 mciSendStringA("set drive" + driveLetter + " door open", callback, 0, 0);
-                //mciSendStringA("set CDAudio door open", callback, 127, 0);
             }
 
         }
